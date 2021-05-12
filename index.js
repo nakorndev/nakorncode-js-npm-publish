@@ -1,8 +1,12 @@
 const fs = require('fs')
 const https = require('https')
 
-const main = (url, downloadPath) => {
+const main = (url, downloadPath, options = {}) => {
     return new Promise((resolve, reject) => {
+        if (options.quite) {
+            Console.prototype.log = () => {}
+        }
+
         const req = https.request(url, (res) => {
             if (!res.headers['content-type'].startsWith('application/')) {
                 return reject(new Error('url is not application/*'))
